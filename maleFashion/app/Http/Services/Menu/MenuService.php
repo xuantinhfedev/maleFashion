@@ -8,9 +8,6 @@ use Illuminate\Support\Str;
 
 class MenuService
 {
-
-
-
     public function getParent()
     {
 
@@ -19,14 +16,13 @@ class MenuService
 
     public function getAll()
     {
-        return Menu::orderbyDesc('id')->paginate(20);
+        // return Menu::orderbyDesc('id')->paginate(20);
+        return Menu::orderBy('id', 'ASC')->paginate(20);
     }
 
     public function create($request)
     {
-        // return Menu::create();
         try {
-            // $data = $request->input();
             Menu::create([
                 'name' => (string) $request->input('name'),
                 'parent_id' => (int) $request->input('parent_id'),
@@ -45,10 +41,29 @@ class MenuService
     public function destroy($request){
         $id = (int)$request->input('id');
         $menu = Menu::where('id', $id)->first();
-        
+
         if($menu){
             return Menu::where('id', $id)->orWhere('parent_id', $id)->delete();
         }
         return false;
+    }
+
+    public function update($request, $menu) : bool
+    {
+        // fill: Quét toàn bộ thông tin request đã lấy
+        // $menu->fill($request->input());
+
+        // Làm thủ công
+        if($request->input('parent_id') != $menu->id)
+        {
+            $menu->parent_id = (int) $request->input('parent_id');
+        }
+            $menu->name =(string) $request->input('name');
+            $menu->description =(string) $request->input('description');
+            $menu->content =(string) $request->input('content');
+            $menu->active =(string) $request->input('active');
+            $menu->save();
+            Session::flash('success', 'Cập nhật thành công danh mục');
+        return true;
     }
 }
