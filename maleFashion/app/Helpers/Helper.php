@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 class Helper{
+    // Hàm render body bảng html theo đệ quy
     public static function menu($menus, $parent_id = 0, $char = '')
     {
         $html = '';
@@ -12,9 +13,9 @@ class Helper{
                 <tr>
                     <td style="text-align: center">'.$menu->id.'</td>
                     <td>' . $char.$menu->name . '</td>
-                    <td>' . self::active($menu->active) . '</td>
+                    <td style="text-align: center">' . self::active($menu->active) . '</td>
                     <td>' . $menu->updated_at . '</td>
-                    <td>
+                    <td style="text-align: center">
                         <a class="btn btn-primary btn-sm" href="/admin/menus/edit/'.$menu->id.'">
                             <i class="fas fa-edit"></i>
                         </a>
@@ -32,6 +33,7 @@ class Helper{
         return $html;
     }
 
+    // Hàm chỉnh sửa nút active
     public static function active($active = 0){
         return $active == 0 ? '<span class="btn btn-danger btn-sm">No</span>' : '<span class="btn btn-success btn-sm">Yes</span>';
     }

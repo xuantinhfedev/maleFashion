@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Services\Menu;
+namespace App\Http\Services\Product;
 
+use App\Models\Product;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
-class MenuService
+class ProductService
 {
-    // Hàm lấy ra menu cha có id = 0
-    public function getParent()
-    {
-        return Menu::where('parent_id', 0)->get();
-    }
     // Hàm lấy toàn bộ thông tin menu
-    public function getAll()
+    public function getMenu()
     {
         // return Menu::orderbyDesc('id')->paginate(20);
-        return Menu::orderBy('id', 'ASC')->paginate(20);
+        return Menu::Where('active', 1)->get();
     }
     // Hàm xử lý việc thêm menu mới vào DB
     public function create($request)
