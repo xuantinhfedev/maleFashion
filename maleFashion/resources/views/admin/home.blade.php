@@ -1,5 +1,11 @@
 @extends('admin.main')
 
 @section('content')
-    Nội dung
+
+    <div class="card-body">
+        <div class="row">
+            Xin chào ADMIN
+        </div>
+    </div>
+
 @endsection

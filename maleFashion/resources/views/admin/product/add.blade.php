@@ -59,7 +59,7 @@
                 <div id="image_show">
 
                 </div>
-                <input type="hidden" name="file" id="file">
+                <input type="hidden" name="thumb" id="thumb">
             </div>
 
             <div class="form-group">
@@ -77,7 +77,7 @@
         </div>
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
+            <button type="submit" class="btn btn-primary float-right">Thêm sản phẩm</button>
         </div>
         @csrf
     </form>

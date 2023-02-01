@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductRequest;
 use Illuminate\Http\Request;
-use App\Http\Services\Menu\MenuService;
 use App\Http\Services\Product\ProductService;
+use App\Http\Services\Menu\MenuService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Menu;
 use Illuminate\Foundation\Http\FormRequest;
@@ -50,9 +51,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $this->productService->insert($request);
+        
+        return redirect()->back();
     }
 
     /**

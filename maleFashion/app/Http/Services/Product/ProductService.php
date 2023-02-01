@@ -15,18 +15,34 @@ class ProductService
         // return Menu::orderbyDesc('id')->paginate(20);
         return Menu::Where('active', 1)->get();
     }
+    // Xử lý việc giá đầu vào
+    protected function isValidPrice($request){
+        if($request->input('price') != 0 && $request->input('price_sale') != 0 &&
+            $request->input('price_sale') >= $request->input('price'))
+        {
+            Session::flash('error', 'Giá giảm phải nhỏ hơn giá gốc');
+            return false;
+        }
+
+        if($request->input('price_sale') != 0 && (int)$request->input('price') == 0){
+            Session::flash('error', 'Vui lòng nhập giá gốc');
+            return false;
+        }
+
+        return true;
+    }
     // Hàm xử lý việc thêm menu mới vào DB
-    public function create($request)
+    public function insert($request)
     {
+        $isValidPrice = $this->isValidPrice($request);
+        if($isValidPrice === false)
+        {
+            return false;
+        }
         try {
-            Menu::create([
-                'name' => (string) $request->input('name'),
-                'parent_id' => (int) $request->input('parent_id'),
-                'description' => (string) $request->input('description'),
-                'content' => (string) $request->input('content'),
-                'active' => (string) $request->input('active')
-            ]);
-            Session::flash('success', 'Tạo danh mục thành công');
+            $request->except('_token');
+            Product::create($request->all());
+            Session::flash('success', 'Thêm sản phẩm thành công');
         } catch (\Exception $err) {
             Session::flash('error', $err->getMessage());
             return false;
